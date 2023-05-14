@@ -11,19 +11,24 @@ ENDPOINTS = {
     "/movies/recommendation/{title}": "title"
 }
 
-with st.form("API Request Form"):
-    endpoint = st.selectbox("Choose an endpoint", list(ENDPOINTS.keys()))
-    param_name = ENDPOINTS[endpoint]
-    param_value = st.text_input(f"Enter the {param_name}")
+st.title("Movie API")
 
-    params = {param_name: param_value}
+# Display dropdown menu to select endpoint
+endpoint = st.selectbox("Select an endpoint", list(ENDPOINTS.keys()))
 
-    submit_button = st.form_submit_button(label='Submit')
+# Display input field for endpoint parameter
+param_name = ENDPOINTS[endpoint]
+param_value = st.text_input(f"Enter value for {param_name}")
+
+# Display submit button
+submit_button = st.button("Submit")
 
 if submit_button:
     # Replace {parameter} with the actual value of the parameter
-    url = "https://henry-individual-project-1.onrender.com" + endpoint
-    response = requests.get(url.format(**params))
+    url = f"https://henry-individual-project-1.onrender.com{endpoint}"
+    url = url.format(**{param_name: param_value})
+    
+    response = requests.get(url)
 
     if response.status_code == 200:
         result = response.json()
