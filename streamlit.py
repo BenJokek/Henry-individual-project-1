@@ -1,29 +1,22 @@
 import requests
 import streamlit as st
 
+ENDPOINTS = {
+    "/movies/month/{month_name}": "month_name",
+    "/movies/week/{day_of_week}": "day_of_week",
+    "/movies/belongs_to_collection/{franchise}": "franchise",
+    "/movies/production_countries/{country}": "country",
+    "/movies/production_companies/{producer}": "producer",
+    "/movies/return/{movie}": "movie",
+    "/movies/recommendation/{title}": "title"
+}
+
 with st.form("API Request Form"):
-    endpoint = st.selectbox("Choose an endpoint", ["/movies/month/{month_name}", "/movies/week/{day_of_week}", "/movies/belongs_to_collection/{franchise}", "/movies/production_countries/{country}", "/movies/production_companies/{producer}", "/movies/return/{movie}", "/movies/recommendation/{title}"])
-    if endpoint == "/movies/month/{month_name}":
-        month_name = st.text_input("Enter the month name")
-        params = {"month_name": month_name}
-    elif endpoint == "/movies/week/{day_of_week}":
-        day_of_week = st.text_input("Enter the day of the week")
-        params = {"day_of_week": day_of_week}
-    elif endpoint == "/movies/belongs_to_collection/{franchise}":
-        franchise = st.text_input("Enter the franchise name")
-        params = {"franchise": franchise}
-    elif endpoint == "/movies/production_countries/{country}":
-        country = st.text_input("Enter the production country name")
-        params = {"country": country}
-    elif endpoint == "/movies/production_companies/{producer}":
-        producer = st.text_input("Enter the production company name")
-        params = {"producer": producer}
-    elif endpoint == "/movies/return/{movie}":
-        movie = st.text_input("Enter the movie title")
-        params = {"movie": movie}
-    elif endpoint == "/movies/recommendation/{title}":
-        title = st.text_input("Enter the movie title")
-        params = {"title": title}
+    endpoint = st.selectbox("Choose an endpoint", list(ENDPOINTS.keys()))
+    param_name = ENDPOINTS[endpoint]
+    param_value = st.text_input(f"Enter the {param_name}")
+
+    params = {param_name: param_value}
 
     submit_button = st.form_submit_button(label='Submit')
 
