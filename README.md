@@ -33,3 +33,7 @@ The model will look for similarity between movies. This is known as Content Base
 
 The FastAPI app retrieves all movies from my PostgreSQL database, performs some data preprocessing on them, and then computes the cosine similarity between their descriptions to get a list of recommended movies for a specified title. It is limited to 500 movies because the very limited memory in the free server.
 I could run it with more thans 20000 movies in local (more than 30000 becomes too much for me) and the recommendations seem good. The notebook is available to test.
+
+## Streamlit
+
+I created a simple Streamlit app which make requests to the API.
