@@ -17,13 +17,19 @@ I must start from scratch and quickly become a Data Engineer to have an MVP (Min
 
 ## ETL
 
+First I import the dirty data from the datasets directory. Then I clean it. Finally I export it as a ".csv" file in order to use it later in the model to test the recommendation system. Also I upload it to my PostgreSQL database hosted in Render (create your own here: https://dashboard.render.com/new/database) so I can use it with my API. The connection uses the credentials saved in a ".env" file that must be created with the data as in the ".env.example".
 
+## DEA
+
+The DEA uses ydata_profiling, dataprep, sweetviz, autoviz, missingno and wordcloud to analyse the data from the ETL.
 
 ## FastAPI
 
-I used the FastAPI framework to create an app with several endpoints. The application communicates with a database using SQLAlchemy to perform various operations on movie data.
+I used the FastAPI framework to create an app with several endpoints. The application communicates with my PostgreSQL database using SQLAlchemy to perform various operations on movie data. I host the API in Render (the same website where I created the database) and also there I can configure the enviroment variables with the database credentials. That's the only configuration I need in order to connect the database, the code itself do the rest. Also important when creating the "Web Service" server in Render, in order to be able to use the API, I have to configure the settings so the "Build Command" is "pip install -r requirements.txt" and the "Start Command" is "uvicorn main:app --host 0.0.0.0 --port 10000". Here is the importance of having a environment in our project so we can add the dependencies with "pip freeze > requirements.txt" so the server use that file to install everything needed (https://github.com/HX-FNegrete/render-fastapi-tutorial).
 
-## Model
+## Model - Movie Description Based Recommender
 
-In the FastAPI app it retrieves all movies from a database, performs some data preprocessing on them, and then computes the cosine similarity between their descriptions to get a list of recommended movies for a specified title. It is limited to 500 movies because the very limited memory in the free server.
+The model will look for similarity between movies. This is known as Content Based Filtering/Recommender because I will be using movie metadata to build it. It will be based on movie "Overviews" and "Taglines". Also, I will be using a subset of all the movies available due to limiting computing power.
+
+The FastAPI app retrieves all movies from my PostgreSQL database, performs some data preprocessing on them, and then computes the cosine similarity between their descriptions to get a list of recommended movies for a specified title. It is limited to 500 movies because the very limited memory in the free server.
 I could run it with more thans 20000 movies in local (more than 30000 becomes too much for me) and the recommendations seem good. The notebook is available to test.
