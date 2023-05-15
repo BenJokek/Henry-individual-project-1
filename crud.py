@@ -154,7 +154,7 @@ def get_movie_return(db: Session, title: str) -> dict:
     revenue = db_movie.revenue
     profit = revenue - investment
     # Calculate the rate of return, rounded to 2 decimal places.
-    rate_of_return = round((profit / investment) * 100, 2) if investment else None
+    rate_of_return = round((profit / investment) * 100, 2) if investment else 0
     # Return a dictionary with information about the movie.
     return {'movie': title, 'investment': investment, 'profit': profit, 'returns': rate_of_return, 'year': db_movie.release_date.year}
 
