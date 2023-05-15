@@ -186,7 +186,7 @@ def get_recommendations(db: Session, title: str):
     df['description'] = df['description'].fillna('') # fill NaN values with an empty string
     df = df.drop_duplicates(subset='title') # remove duplicates based on the 'title' column
     df = df.head(500) # keep only the first 500 movies (for performance reasons)
-    print("sample", df.head()) # print a sample of the dataframe
+    print("sample", df["title"].head()) # print a sample of the dataframe
     
     # Compute cosine similarity matrix
     tf = TfidfVectorizer(analyzer='word', ngram_range=(1, 2), min_df=0, stop_words='english')
@@ -200,7 +200,7 @@ def get_recommendations(db: Session, title: str):
 
     # Get recommendations for the specified movie
     if title not in indices: # check if the input movie title is in the indices
-        return []
+        return "Movie not found"
     idx = indices[title] # get the index of the input movie title
     sim_scores = list(enumerate(cosine_sim[idx])) # get the cosine similarity scores of the input movie with all other movies
     sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True) # sort the similarity scores in descending order
