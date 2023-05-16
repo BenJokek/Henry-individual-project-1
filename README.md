@@ -25,7 +25,16 @@ The DEA uses ydata_profiling, dataprep, sweetviz, autoviz, missingno and wordclo
 
 ## FastAPI
 
-I used the FastAPI framework to create an app with several endpoints. The application communicates with my PostgreSQL database using SQLAlchemy to perform various operations on movie data. I host the API in Render (the same website where I created the database) and also there I can configure the enviroment variables with the database credentials. That's the only configuration I need in order to connect the database, the code itself do the rest. Also important when creating the "Web Service" server in Render, in order to be able to use the API, I have to configure the settings so the "Build Command" is "pip install -r requirements.txt" and the "Start Command" is "uvicorn main:app --host 0.0.0.0 --port 10000". Here is the importance of having a environment in our project so we can add the dependencies with "pip freeze > requirements.txt" so the server use that file to install everything needed (https://github.com/HX-FNegrete/render-fastapi-tutorial).
+I used the FastAPI framework to create an app with several endpoints. The application communicates with my PostgreSQL database using SQLAlchemy to perform various operations on movie data. I host the API in Render (the same website where I created the database) and also there I can configure the enviroment variables with the database credentials. Also when creating the "Web Service" server in Render, in order to be able to use the API, I have to configure the settings so the "Build Command" is "pip install -r requirements.txt" and the "Start Command" is "uvicorn main:app --host 0.0.0.0 --port 10000". Here is the importance of having a environment in our project so we can add the dependencies with "pip freeze > requirements.txt" so the server use that file to install everything needed (https://github.com/HX-FNegrete/render-fastapi-tutorial).
+
+### API goals:
+- The month is entered and the function returns the number of movies that were released that month (name of the month, in str, example 'January') historically: return {'month':month , 'amount':response}
+- The day is entered and the function returns the number of movies that were released that day (of the week, in str, example 'Monday') historically: return {'day': day , 'amount':response}
+- Enter the franchise, returning the number of movies, total and average profit: return {'franchise':franchise, 'quantity':response, 'total_profit':response, 'average_profit' :answer}
+- Enter the country, returning the number of movies produced in it: return {'country':country, 'quantity':response}
+- Enter the producer, returning the total profit and the number of movies they produced: return {'producer':producer, 'total_profit':response, 'quantity':response}
+- Enter the movie, returning investment, profit, return, and the year it was released: return {'movie':movie, 'investment':response, 'profit' :response,'return':response, 'year':response}
+- Enter a movie name and it recommends similar ones in a list of 5 values: return {'recommended list': response}
 
 ## Model - Movie Description Based Recommender
 
@@ -37,3 +46,4 @@ I could run it with more thans 20000 movies in local (more than 30000 becomes to
 ## Streamlit
 
 I created a simple Streamlit app which make requests to the API.
+
