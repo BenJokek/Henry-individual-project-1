@@ -2,13 +2,13 @@ import requests
 import streamlit as st
 
 ENDPOINTS = {
-    "/movies/month/{month_name}": "month_name",
-    "/movies/week/{day_of_week}": "day_of_week",
-    "/movies/belongs_to_collection/{franchise}": "franchise",
-    "/movies/production_countries/{country}": "country",
-    "/movies/production_companies/{producer}": "producer",
-    "/movies/return/{movie}": "movie",
-    "/movies/recommendation/{title}": "title"
+    "/peliculas_mes/{month_name}": "month_name",
+    "/peliculas_dia/{day_of_week}": "day_of_week",
+    "/franquicia/{franchise}": "franchise",
+    "/peliculas_pais/{country}": "country",
+    "/productoras/{producer}": "producer",
+    "/retorno/{movie}": "movie",
+    "/recomendacion/{title}": "title"
 }
 
 st.title("Movie API")
