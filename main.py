@@ -22,7 +22,7 @@ def get_db():
         db.close()
 
 # Define an HTTP GET endpoint that maps to the get_movie_count_for_month function
-@app.get("/movies/month/{month_name}", response_model=schemas.MovieCountMonth)
+@app.get("/peliculas_mes/{month_name}", response_model=schemas.MovieCountMonth)
 async def get_movie_count_for_month(month_name: str, db: Session = Depends(get_db)):
     try:
         # Call the get_movie_count_for_month function with the given month name and database session
@@ -34,7 +34,7 @@ async def get_movie_count_for_month(month_name: str, db: Session = Depends(get_d
     return movie_count
 
 # Define an HTTP GET endpoint that maps to the get_movie_count_for_day_of_week function
-@app.get("/movies/week/{day_of_week}", response_model=schemas.MovieCountDayOfWeek)
+@app.get("/peliculas_dia/{day_of_week}", response_model=schemas.MovieCountDayOfWeek)
 async def get_movie_count_for_day_of_week(day_of_week: str, db: Session = Depends(get_db)):
     try:
         # Call the get_movie_count_for_day_of_week function with the given day of the week and database session
@@ -46,7 +46,7 @@ async def get_movie_count_for_day_of_week(day_of_week: str, db: Session = Depend
     return movie_count
 
 # Define an HTTP GET endpoint that maps to the get_franchise_stats function
-@app.get("/movies/belongs_to_collection/{franchise}", response_model=schemas.Franchise)
+@app.get("/franquicia/{franchise}", response_model=schemas.Franchise)
 def belongs_to_collection(franchise: str, db: Session = Depends(get_db)):
     try:
         # Call the get_franchise_stats function with the given franchise name and database session
@@ -57,7 +57,7 @@ def belongs_to_collection(franchise: str, db: Session = Depends(get_db)):
     # If the function succeeds, return a JSON response with the franchise statistics
     return stats
 
-@app.get("/movies/production_countries/{country}", response_model=schemas.MovieCountCountry)
+@app.get("/peliculas_pais/{country}", response_model=schemas.MovieCountCountry)
 async def production_countries(country: str, db: Session = Depends(get_db)):
     # Retrieve the number of movies from the database for the given country
     movie_count = crud.get_movies_by_country(db, country=country)
@@ -68,7 +68,7 @@ async def production_countries(country: str, db: Session = Depends(get_db)):
     return movie_count
 
 # Define a route for retrieving movie statistics for a given production company name
-@app.get("/movies/production_companies/{producer}", response_model=schemas.Producer)
+@app.get("/productoras/{producer}", response_model=schemas.Producer)
 def production_companies(producer: str, db: Session = Depends(get_db)):
     # Call the get_producer_by_name function to retrieve the movie statistics for the given production company
     db_producer = crud.get_producer_by_name(db, producer)
@@ -80,12 +80,12 @@ def production_companies(producer: str, db: Session = Depends(get_db)):
 
 # This route handler takes a movie title and a database session as input.
 # It returns a JSON object with information about the movie's return on investment.
-@app.get("/movies/return/{movie}", response_model=schemas.Return)
+@app.get("/retorno/{movie}", response_model=schemas.Return)
 def movie_return(movie: str, db: Session = Depends(get_db)):
     return crud.get_movie_return(db, title=movie)
 
 # Given a movie title, retrieve similar movie recommendations using the cosine similarity method.
-@app.get('/movies/recommendation/{title}')
+@app.get('/recomendacion/{title}')
 async def get_recommendations(title: str, db: Session = Depends(get_db)):
     recommendations = crud.get_recommendations(db, title)
     return recommendations
